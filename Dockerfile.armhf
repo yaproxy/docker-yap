@@ -1,0 +1,19 @@
+FROM armhf/alpine:3.5
+
+RUN apk add --no-cache ca-certificates
+
+ENV YAP_VERSION=v0.1.0
+
+RUN set -ex \
+    && apk add --no-cache --virtual .build-deps \
+        wget \
+    \
+    && wget https://github.com/yaproxy/yap/releases/download/${YAP_VERSION}/yap_linux_arm_${YAP_VERSION}.tar.gz \
+    && tar zxvf yap_linux_arm_${YAP_VERSION}.tar.gz \
+    && rm yap_linux_arm_${YAP_VERSION}.tar.gz \
+    && mv yap_linux_arm_${YAP_VERSION} /usr/local/bin/yap \
+    && wget https://github.com/yaproxy/yap/raw/v0.1.0/yap.toml -O /yap.toml \
+    && apk del .build-deps
+
+EXPOSE 443 8088
+CMD ["/usr/local/bin/yap", "/yap.toml"]
