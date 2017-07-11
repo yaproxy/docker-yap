@@ -16,9 +16,9 @@ RUN set -ex \
     \
     && export GOROOT_BOOTSTRAP="$(go env GOROOT)" \
     \
-    && git clone -b tls13 --depth 1 https://github.com/phuslu/go /usr/local/go \
+    && git clone --depth 1 https://github.com/phuslu/go /usr/local/go \
     && cd /usr/local/go/src \
-    && patch -p2 -i /no-pic.patch \
+    #&& patch -p2 -i /no-pic.patch \
     && ./make.bash \
     \
     && rm -rf /*.patch \
